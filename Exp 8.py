@@ -4,7 +4,7 @@ from ibm_watson.natural_language_understanding_v1 import SentimentOptions, Featu
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
 # Set up the Natural Language Understanding client
-authenticator = IAMAuthenticator('8u8SrPqOi2zSLwXrc5K-J4F3AbrPYksOYcV2wJjSRnSm')
+authenticator = IAMAuthenticator('Key')
 natural_language_understanding = NaturalLanguageUnderstandingV1(
     version='2021-09-01',
     authenticator=authenticator
