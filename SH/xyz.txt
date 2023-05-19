@@ -1,0 +1,210 @@
+def display(n):
+
+	# Outer for loop for number of lines
+	for i in range(n):
+
+		# Inner for loop for logic execution
+		for j in range((n // 2) + 1):
+
+			# prints two column lines
+			if ((j == 0 or j == n // 2) and i != 0 or
+
+				# print first line of alphabet
+				i == 0 and j != 0 and j != n // 2 or
+
+				# prints middle line
+				i == n // 2):
+				print("*", end = "")
+			else:
+				print(" ", end = "")
+		
+		print()
+	
+a=int(input("Give the Spacing number: "))
+display(a)
+
+
+
+
+
+
+
+
+2# Write a program to use Matplotlib and plot the graph.
+
+import pandas as pd
+#import excel data into a pandas dataframe.
+df = pd.read_excel("/Users/superyassh/Documents/Sem 8/NLP/excel-comp-data.xlsx")
+df.head()
+#We want to add a total column to show total sales for Jan, Feb and Mar.
+df["total"] = df["Jan"] + df["Feb"] + df["Mar"]
+df.head()
+import matplotlib.pyplot as plt
+df['total'].plot(kind="hist")
+plt.xlabel("X axis label")
+plt.ylabel("Y axis label")
+plt.title("Histogram Plot")
+plt.show()
+df['total'].plot()
+plt.show()
+category_data = df["account"]
+total_data = df["total"]
+plt.pie(total_data, labels=category_data, autopct='%1.1f%%')
+plt.title("% of total sales of each account")
+plt.show()
+
+
+
+3chatterbot
+
+from chatterbot import ChatBot
+from chatterbot.trainers import ListTrainer
+
+chatbot = ChatBot("Chatpot")
+
+trainer = ListTrainer(chatbot)
+trainer.train([
+"Hi",
+"Welcome, friend ",
+"Hello",
+"Hello, How are you?", ])
+trainer.train([
+"How are you?",
+"I'm fine, how about you?",
+])
+trainer.train([
+"Are you a plant?",
+"No, I'm the pot below the plant!",
+])
+trainer.train([
+"Are you thristy?",
+"Yes, I need water!",
+])
+
+exit_conditions = (":q", "quit", "exit")
+while True:
+    query = input("> ")
+    if query in exit_conditions:
+        break
+    else:
+        print(f"🪴 {chatbot.get_response(query)}")
+
+
+
+
+
+5 speech to text 
+
+
+import speech_recognition as sr
+import pyttsx3
+
+# Convert speech to text
+r = sr.Recognizer()
+with sr.Microphone() as source:
+    print("Say something!")
+    audio = r.listen(source)
+
+try:
+    text = r.recognize_google(audio)
+    print(f"You said: {text}")
+except sr.UnknownValueError:
+    print("Speech recognition could not understand audio")
+except sr.RequestError as e:
+    print(f"Could not request results from Google Speech Recognition service; {e}")
+
+# Convert text to speech
+engine = pyttsx3.init()
+engine.say("Hello, how are you?")
+engine.runAndWait()
+
+
+
+
+6 sentimental analysis
+import nltk
+from nltk.sentiment import SentimentIntensityAnalyzer
+
+# download necessary resources
+nltk.download('vader_lexicon')
+
+# load the texts
+texts = ["I love working with Python!", 
+         "The weather is terrible today.",
+         "This movie is absolutely amazing!",
+         "I don't like this restaurant at all."]
+
+# create a SentimentIntensityAnalyzer object
+analyzer = SentimentIntensityAnalyzer()
+
+# loop through the texts and get the sentiment of each text
+for text in texts:
+    scores = analyzer.polarity_scores(text)
+    print("\n")
+    if scores['compound'] > 0:
+        print("Text: ", text)
+        print("Positive Sentiment")
+        print("Sentiment Score: ", scores['compound'])
+    elif scores['compound'] < 0:
+        print("Text: ", text)
+        print("Negative Sentiment")
+        print("Sentiment Score: ", scores['compound'])
+    else:
+        print("Text: ", text)
+        print("Neutral Sentiment")
+        print("Sentiment Score: ", scores['compound'])
+
+
+7 twitter 
+import pandas as pd 
+from textblob import TextBlob
+# load sample data 
+data = pd.read_csv('sample_data.csv') 
+# loop through the data and get the sentiment of each tweet 
+for index, row in data.iterrows(): 
+    text = row['text']
+    sentiment = TextBlob(text).sentiment.polarity
+    print("Text: ", text)
+    print("Sentiment Score: ", sentiment)
+    print("\n")
+
+
+
+
+
+10 image
+import cv2
+
+# read image
+img = cv2.imread('/Users/superyassh/Documents/Sem 8/NLP/image.jpg')
+
+# check if image is loaded correctly
+if img is None:
+    print("Error: Could not read image")
+else:
+    # convert to grayscale
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+    # apply image processing tasks here...
+
+# convert to grayscale
+gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+# apply Gaussian blur
+blur = cv2.GaussianBlur(gray, (5, 5), 0)
+
+# apply Canny edge detection
+edges = cv2.Canny(blur, 50, 150)
+
+# find contours
+contours, hierarchy = cv2.findContours(edges, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+
+# draw contours on original image
+cv2.drawContours(img, contours, -1, (0, 255, 0), 2)
+
+# display results
+cv2.imshow('grayscale', gray)
+cv2.imshow('Original Image', img)
+cv2.imshow('Canny Edges', edges)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
